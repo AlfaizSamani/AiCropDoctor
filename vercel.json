@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/proxy.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "functions": {
+    "api/proxy.js": {
+      "maxDuration": 300
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/proxy?__crop_doctor_path=/$1"
+    }
+  ]
+}

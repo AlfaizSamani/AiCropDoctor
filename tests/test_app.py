@@ -161,6 +161,23 @@ class CropDoctorSmokeTests(unittest.TestCase):
         self.assertEqual(response.get_json()["model_status"], "not_loaded")
         self.assertEqual(self.client.get("/api/health").status_code, 200)
 
+    def test_upload_limit_fits_under_vercel_function_request_cap(self):
+        self.assertLessEqual(app_module.MAX_UPLOAD_MB, 4)
+        total_request_limit = app_module.MAX_UPLOAD_BYTES + app_module.MAX_MULTIPART_OVERHEAD_BYTES
+        self.assertLessEqual(total_request_limit, 4_500_000)
+        self.assertEqual(app_module.app.config["MAX_CONTENT_LENGTH"], total_request_limit)
+
+        vercel = json.loads((app_module.BASE_DIR / "vercel.json").read_text(encoding="utf-8"))
+        self.assertEqual(vercel["builds"], [{"src": "api/proxy.js", "use": "@vercel/node"}])
+        self.assertEqual(vercel["routes"][0]["dest"], "/api/proxy?__crop_doctor_path=/$1")
+        proxy = (app_module.BASE_DIR / "api" / "proxy.js").read_text(encoding="utf-8")
+        self.assertIn("RENDER_BACKEND_URL", proxy)
+        self.assertIn("MAX_REQUEST_BYTES = 4_500_000", proxy)
+        self.assertIn("const MAX_BYTES = 4 * 1024 * 1024", (app_module.BASE_DIR / "static" / "enhancements.js").read_text(encoding="utf-8"))
+        diagnosis_template = (app_module.BASE_DIR / "templates" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("Up to 4 MB", diagnosis_template)
+        self.assertNotIn("8 MB", diagnosis_template)
+
     def test_missing_photo_is_rejected(self):
         response = self.client.post("/api/diagnose", data={})
         self.assertEqual(response.status_code, 400)
@@ -296,7 +313,7 @@ class CropDoctorSmokeTests(unittest.TestCase):
         self.assertEqual(worker.headers["Service-Worker-Allowed"], "/")
         self.assertIn(b"request.method !== \"GET\"", worker.data)
         self.assertIn(b"/api/", worker.data)
-        self.assertIn(b"const CACHE_NAME = `${CACHE_PREFIX}v22`", worker.data)
+        self.assertIn(b"const CACHE_NAME = `${CACHE_PREFIX}v23`", worker.data)
         self.assertIn(b'request.mode === "navigate"', worker.data)
         self.assertIn(b"caches.match(request)", worker.data)
         self.assertIn(b"cache.put(request, copy)", worker.data)

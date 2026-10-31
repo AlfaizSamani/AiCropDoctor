@@ -59,7 +59,7 @@ def _threshold_env():
 
 
 CONFIDENCE_THRESHOLD = _threshold_env()
-MAX_UPLOAD_MB = _positive_int_env("MAX_UPLOAD_MB", 8)
+MAX_UPLOAD_MB = _positive_int_env("MAX_UPLOAD_MB", 4)
 MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
 MAX_MULTIPART_OVERHEAD_BYTES = 64 * 1024
 CROP_DOCTOR_MODE = os.getenv("CROP_DOCTOR_MODE", "development").strip().lower()

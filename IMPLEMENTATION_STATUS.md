@@ -13,13 +13,13 @@ Updated: 31 October 2026
 
 | Check | Result |
 | --- | --- |
-| `.\.venv\Scripts\python.exe -W error::ResourceWarning -m unittest discover -s tests -v` | Passed: 22 tests, 0 failures/errors. |
+| `.\.venv\Scripts\python.exe -W error::ResourceWarning -m unittest discover -s tests -v` | Passed after Vercel proxy/upload-limit changes: 23 tests, 0 failures/errors. |
 | `.\.venv\Scripts\python.exe -m py_compile app.py tests\test_app.py tools\evaluate_classifier.py` | Passed. |
-| `node --check static\site.js`, `node --check static\app.js`, `node --check static\enhancements.js`, `node --check static\service-worker.js` | All passed. |
+| `node --check api\proxy.js`, `node --check static\site.js`, `node --check static\app.js`, `node --check static\enhancements.js`, `node --check static\service-worker.js` | All passed after proxy/upload-limit changes. |
 | Translation completeness | Four locales, 213 matching keys each; no `??` replacement strings or Unicode replacement characters. Runtime JavaScript, image alt text, and template translation keys are covered. |
 | Local browser check | All seven pages were opened directly at 320, 390, 768 and 1280 px in English, Hindi, Marathi and Urdu (112 page/locale/viewport checks). No horizontal overflow or `??` replacement text was found; Urdu used RTL. Dashboard tutorial slides were checked at every locale and width (64 slide renders); all local photos and Commons credit links loaded. |
 | Navigation and browser features | Direct page entry, refresh, browser back/forward, active sidebar states, and mobile drawer open/navigation were checked. Tutorial skip, replay, next/back and finish worked. Opt-in history displayed a test fixture from IndexedDB and cleared it; service worker controlled the page with `ai-crop-doctor-shell-v22`. |
-| PWA shell cache | Browser activated `ai-crop-doctor-shell-v22` on the local development origin. This verifies local service-worker activation, not offline inference. |
+| PWA shell cache | Browser previously activated `ai-crop-doctor-shell-v22` on the local development origin. The cache was bumped to v23 with the upload-text changes; activation of v23 was not rechecked in the browser. Neither cache enables offline inference. |
 | Local image assets | Exact user-provided PALLAVIO logo is used for About and app icons. Field, leaf and potato late-blight photos are bundled locally with source/license credits. Visible images on all seven pages loaded from the local app origin with appropriate alt text or decorative empty alt text; page illustrations do not depend on remotely hosted photos. |
 | Direct HTTP page checks for `/dashboard`, `/diagnose`, `/history`, `/learn`, `/getting-started`, `/settings`, `/about` | All returned HTTP 200 from a running local Flask process. |
 | Live `POST /api/diagnose` using the existing local JPEG file | Returned HTTP 200 with the expected response shape and `score_type=raw_model_score_not_calibrated`. |
@@ -46,8 +46,10 @@ The downloaded file's observed size and SHA-256 matched the upstream Git LFS poi
 ## Deployment and remaining limitations
 
 - `Dockerfile` is configured for Gunicorn binding to `0.0.0.0:${PORT:-8080}`, a single worker, health check, CPU PyTorch and an external persistent model cache path. A Docker image build, hosted HTTPS deployment and public URL were not tested or created.
-- `render.yaml` provides a Render Free Blueprint for a test deployment. The published guide explains that its 0.1 CPU/512 MB RAM, sleep, and ephemeral filesystem are not a reliability guarantee for this model. Vercel can host Flask functions, but its 4.5 MB request-body cap is below this app's 8 MB upload setting; no Vercel deployment config was added.
-- `DEPLOYMENT_GUIDE.md` contains current Render/Vercel comparison and GitHub connection steps. No Render/Vercel account connection, remote deployment, hosted inference, or reliability test was performed.
+- `render.yaml` provides a Render Free Blueprint for a test deployment. It sets `MAX_UPLOAD_MB=4`; the Flask request limit includes 64 KiB multipart overhead, keeping total uploads under Vercel's 4.5 MB function request ceiling. Render Free's limited CPU/RAM, sleep, and ephemeral filesystem remain reliability risks for this model.
+- `vercel.json` builds only the small Node.js proxy function; `.vercelignore` excludes the Flask/PyTorch source and requirements from Vercel's function bundle. The proxy forwards the frontend pages, assets, service worker, and API routes to Render using the required Vercel environment variable `RENDER_BACKEND_URL`.
+- The prior Vercel build log supplied by the developer reported a 5,240.84 MB Python function bundle against a 500 MB limit. A local Node proxy smoke check passed against a mock backend for path/query forwarding, a 4,259,840-byte request, and a 4,500,001-byte request rejected with HTTP 413. The new Vercel build configuration is intended to avoid the Python build path; a post-change hosted Vercel build and Render connection have not yet been verified.
+- `DEPLOYMENT_GUIDE.md` documents the current Render/Vercel arrangement and required environment variables. No successful hosted inference, public URL, or reliability test is claimed; set `RENDER_BACKEND_URL` in Vercel and verify the host build before using it.
 - The browser checks were performed in desktop browser automation at the listed viewport sizes, not on a physical Android/iOS phone. Camera capture, microphone permissions, real speech recognition, speech synthesis voices, GPU inference, offline inference, and hosted-server behavior were not tested.
 - No independent or representative field accuracy evaluation was performed. The model's raw softmax score is uncalibrated, and its fixed classes can force unfamiliar photos into known classes.
 - The app is a preliminary educational screening prototype. Verify results with a qualified local agricultural advisor before treatment; never choose pesticides based only on the model.

@@ -15,7 +15,7 @@
       retry_analysis: "Retry analysis",
       settings_accessibility: "Voice controls are optional. Use the microphone only after tapping it; typing and crop selection remain available. The layout supports keyboard focus and Urdu right-to-left reading.",
       talk_me: "Talk me through it", choose_gallery: "Choose from gallery",
-      photo_tip: "Photo tip: one leaf, in focus, in daylight; avoid heavy shadows. Use JPG, PNG or WEBP, up to 8 MB.",
+      photo_tip: "Photo tip: one leaf, in focus, in daylight; avoid heavy shadows. Use JPG, PNG or WEBP, up to 4 MB.",
       speech_privacy: "Voice recognition depends on your browser and may send audio to an external service. It may not work offline.",
       mic_consent: "Continue with voice recognition?", upload_privacy: "The photo is sent to the server for analysis. Uploads may be temporarily stored by the server host; this app does not create a case record.",
       score_caveat: "Raw model score; not a calibrated probability of correctness.",
@@ -52,7 +52,7 @@
       image_missing: "Choose a leaf photo before continuing.", file_type: "Use a JPG, PNG or WEBP image.",
       invalid_image: "The selected file could not be read as an image. Try another JPG, PNG or WEBP photo.",
       image_too_small: "This photo is too small. Choose a clearer image with the leaf filling more of the frame.",
-      file_size: "That photo is too large. The maximum size is 8 MB.", request_timeout: "Analysis took too long. Check the connection and retry.",
+      file_size: "That photo is too large. The maximum size is 4 MB.", request_timeout: "Analysis took too long. Check the connection and retry.",
       request_failed: "Could not connect to the analysis server. Check the connection and retry.",
       result_uncertain: "Not sure — please verify this possible match.", result_possible: "Possible model match — please verify before action.",
       result_mismatch: "Crop mismatch: this result is marked uncertain.",
@@ -81,7 +81,7 @@
       retry_analysis: "जाँच फिर करें",
       settings_accessibility: "आवाज़ नियंत्रण वैकल्पिक हैं। माइक्रोफ़ोन केवल बटन दबाने पर चालू होता है; लिखना और फसल चुनना हमेशा उपलब्ध है। कीबोर्ड और उर्दू दाएँ-से-बाएँ पढ़ने का समर्थन है।",
       talk_me: "मुझे चरणों में बताइए", choose_gallery: "गैलरी से चुनें",
-      photo_tip: "फोटो सुझाव: एक पत्ता, साफ़ फोकस और दिन का उजाला रखें; गहरी छाया से बचें। JPG, PNG या WEBP, अधिकतम 8 MB।",
+      photo_tip: "फोटो सुझाव: एक पत्ता, साफ़ फोकस और दिन का उजाला रखें; गहरी छाया से बचें। JPG, PNG या WEBP, अधिकतम 4 MB।",
       speech_privacy: "आवाज़ पहचान आपके ब्राउज़र पर निर्भर करती है और ऑडियो बाहरी सेवा को भेजा जा सकता है। यह ऑफ़लाइन काम न भी करे।",
       mic_consent: "क्या आप आवाज़ पहचान जारी रखना चाहते हैं?", upload_privacy: "फोटो जाँच के लिए सर्वर पर भेजी जाती है। सर्वर होस्ट इसे अस्थायी रूप से रख सकता है; ऐप केस रिकॉर्ड नहीं बनाता।",
       score_caveat: "कच्चा मॉडल स्कोर; सही होने की कैलिब्रेट की गई संभावना नहीं।",
@@ -118,7 +118,7 @@
       image_missing: "आगे बढ़ने से पहले पत्ते की फोटो चुनें।", file_type: "JPG, PNG या WEBP फोटो चुनें।",
       invalid_image: "चयनित फाइल फोटो के रूप में नहीं पढ़ी जा सकी। दूसरी JPG, PNG या WEBP फोटो चुनें।",
       image_too_small: "यह फोटो बहुत छोटी है। पत्ते को साफ़ और बड़ा दिखाने वाली फोटो चुनें।",
-      file_size: "फोटो बहुत बड़ी है। अधिकतम आकार 8 MB है।", request_timeout: "जाँच में अधिक समय लगा। कनेक्शन जाँचकर फिर कोशिश करें।",
+      file_size: "फोटो बहुत बड़ी है। अधिकतम आकार 4 MB है।", request_timeout: "जाँच में अधिक समय लगा। कनेक्शन जाँचकर फिर कोशिश करें।",
       request_failed: "जाँच सर्वर से संपर्क नहीं हो सका। कनेक्शन जाँचकर फिर कोशिश करें।",
       result_uncertain: "पक्का नहीं — इस संभावित पहचान की पुष्टि करें।", result_possible: "मॉडल की संभावित पहचान — कार्रवाई से पहले पुष्टि करें।",
       result_mismatch: "फसल मेल नहीं खाई: परिणाम को अनिश्चित माना गया है।",
@@ -147,7 +147,7 @@
       retry_analysis: "तपासणी पुन्हा करा",
       settings_accessibility: "आवाज नियंत्रण ऐच्छिक आहे. मायक्रोफोन फक्त बटण दाबल्यावर सुरू होतो; टाइप करणे आणि पीक निवडणे उपलब्ध आहे. कीबोर्ड आणि उर्दू उजवीकडून डावीकडे वाचन समर्थित आहे.",
       talk_me: "मला टप्प्याटप्प्याने सांगा", choose_gallery: "गॅलरीमधून निवडा",
-      photo_tip: "फोटो टिप: एक पान, स्पष्ट फोकस आणि दिवसाचा प्रकाश; गडद सावली टाळा. JPG, PNG किंवा WEBP, कमाल 8 MB.",
+      photo_tip: "फोटो टिप: एक पान, स्पष्ट फोकस आणि दिवसाचा प्रकाश; गडद सावली टाळा. JPG, PNG किंवा WEBP, कमाल 4 MB.",
       speech_privacy: "आवाज ओळख ब्राउझरवर अवलंबून आहे आणि ऑडिओ बाह्य सेवेकडे पाठवला जाऊ शकतो. ऑफलाइन काम होईलच असे नाही.",
       mic_consent: "आवाज ओळख सुरू ठेवायची?", upload_privacy: "फोटो तपासणीसाठी सर्व्हरकडे पाठवला जातो. सर्व्हर होस्ट तो तात्पुरता साठवू शकतो; अॅप केस नोंद तयार करत नाही.",
       score_caveat: "मॉडेलचा मूळ स्कोअर; योग्यतेची कॅलिब्रेट केलेली शक्यता नाही.",
@@ -184,7 +184,7 @@
       image_missing: "पुढे जाण्यापूर्वी पानाचा फोटो निवडा.", file_type: "JPG, PNG किंवा WEBP प्रतिमा वापरा.",
       invalid_image: "निवडलेली फाइल प्रतिमा म्हणून वाचता आली नाही. दुसरा JPG, PNG किंवा WEBP फोटो निवडा.",
       image_too_small: "हा फोटो खूप लहान आहे. पान स्पष्ट आणि मोठे दिसेल असा फोटो निवडा.",
-      file_size: "फोटो खूप मोठा आहे. कमाल आकार 8 MB आहे.", request_timeout: "तपासणीला जास्त वेळ लागला. जोडणी तपासून पुन्हा प्रयत्न करा.",
+      file_size: "फोटो खूप मोठा आहे. कमाल आकार 4 MB आहे.", request_timeout: "तपासणीला जास्त वेळ लागला. जोडणी तपासून पुन्हा प्रयत्न करा.",
       request_failed: "तपासणी सर्व्हरशी जोडता आले नाही. जोडणी तपासून पुन्हा प्रयत्न करा.",
       result_uncertain: "खात्री नाही — या संभाव्य जुळणीची पडताळणी करा.", result_possible: "मॉडेलची संभाव्य जुळणी — कृतीपूर्वी पडताळणी करा.",
       result_mismatch: "पीक जुळत नाही: निकाल अनिश्चित आहे.",
@@ -213,7 +213,7 @@
       retry_analysis: "تجزیہ دوبارہ کریں",
       settings_accessibility: "آواز کے کنٹرول اختیاری ہیں۔ مائیکروفون صرف بٹن دبانے پر چلے گا؛ لکھنے اور فصل منتخب کرنے کے متبادل دستیاب ہیں۔ کی بورڈ اور اردو دائیں سے بائیں مطالعے کی معاونت ہے۔",
       talk_me: "مرحلہ وار رہنمائی", choose_gallery: "گیلری سے منتخب کریں",
-      photo_tip: "تصویر کا مشورہ: ایک پتا، واضح فوکس اور دن کی روشنی؛ گہرے سائے سے بچیں۔ JPG، PNG یا WEBP، زیادہ سے زیادہ 8 MB۔",
+      photo_tip: "تصویر کا مشورہ: ایک پتا، واضح فوکس اور دن کی روشنی؛ گہرے سائے سے بچیں۔ JPG، PNG یا WEBP، زیادہ سے زیادہ 4 MB۔",
       speech_privacy: "آواز کی شناخت براؤزر پر منحصر ہے اور آڈیو کسی بیرونی سروس کو بھیجا جا سکتا ہے۔ یہ آف لائن کام نہ بھی کرے۔",
       mic_consent: "آواز کی شناخت جاری رکھیں؟", upload_privacy: "تصویر تجزیے کے لیے سرور کو بھیجی جاتی ہے۔ سرور ہوسٹ اسے عارضی طور پر رکھ سکتا ہے؛ ایپ کیس ریکارڈ نہیں بناتی۔",
       score_caveat: "ماڈل کا خام اسکور؛ درست ہونے کا کیلیبریٹ شدہ امکان نہیں۔",
@@ -250,7 +250,7 @@
       image_missing: "آگے بڑھنے سے پہلے پتے کی تصویر منتخب کریں۔", file_type: "JPG، PNG یا WEBP تصویر منتخب کریں۔",
       invalid_image: "منتخب فائل تصویر کے طور پر نہیں پڑھی جا سکی۔ دوسری JPG، PNG یا WEBP تصویر منتخب کریں۔",
       image_too_small: "یہ تصویر بہت چھوٹی ہے۔ واضح تصویر منتخب کریں جس میں پتا بڑا نظر آئے۔",
-      file_size: "تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز 8 MB ہے۔", request_timeout: "تجزیے میں زیادہ وقت لگا۔ رابطہ دیکھ کر دوبارہ کوشش کریں۔",
+      file_size: "تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز 4 MB ہے۔", request_timeout: "تجزیے میں زیادہ وقت لگا۔ رابطہ دیکھ کر دوبارہ کوشش کریں۔",
       request_failed: "تجزیے کے سرور سے رابطہ نہیں ہو سکا۔ رابطہ دیکھ کر دوبارہ کوشش کریں۔",
       result_uncertain: "یقین نہیں — اس ممکنہ مماثلت کی تصدیق کریں۔", result_possible: "ماڈل کی ممکنہ مماثلت — عمل سے پہلے تصدیق کریں۔",
       result_mismatch: "فصل میں فرق: نتیجہ غیر یقینی ہے۔",
@@ -295,7 +295,7 @@
   const GUIDE = document.getElementById("guide-dialog");
   const FILE = document.getElementById("image-input");
   const GALLERY = document.getElementById("gallery-input");
-  const MAX_BYTES = 8 * 1024 * 1024;
+  const MAX_BYTES = 4 * 1024 * 1024;
   let currentLanguage = LANG?.value || "en";
   let step = 0;
   let affectedParts = "";

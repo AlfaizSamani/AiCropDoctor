@@ -43,7 +43,7 @@ python app.py
 
 ## Docker and HTTPS hosting
 
-For GitHub-connected deployments, read [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md). It documents the included Render Blueprint, Vercel's request-size mismatch, and why free plans are suitable only for testing this model.
+For GitHub-connected deployments, read [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md). Render runs the Flask app and model. The optional Vercel Node.js gateway forwards to Render without bundling PyTorch; set `RENDER_BACKEND_URL` in Vercel and keep image uploads below 4 MiB.
 
 Build locally:
 

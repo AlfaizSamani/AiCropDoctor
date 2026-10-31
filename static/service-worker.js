@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "ai-crop-doctor-shell-";
-const CACHE_NAME = `${CACHE_PREFIX}v22`;
+const CACHE_NAME = `${CACHE_PREFIX}v23`;
 const APP_SHELL = [
   "/",
   "/dashboard",

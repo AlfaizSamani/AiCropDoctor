@@ -19,3 +19,5 @@ services:
         value: production
       - key: CROP_DOCTOR_MODEL_DIR
         value: /tmp/ai-crop-doctor-model
+      - key: MAX_UPLOAD_MB
+        value: "4"

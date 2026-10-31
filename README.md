@@ -103,7 +103,7 @@ The first-run tutorial can be skipped; replay it from the top bar or Settings. L
 | `CROP_DOCTOR_MODEL_DIR` | `<project>/.model-cache` | Directory for the verified model checkpoint |
 | `CROP_DOCTOR_CHECKPOINT` | `<model dir>/full_fine_tuned_b5 (1).pth` | Optional explicit checkpoint path |
 | `CONFIDENCE_THRESHOLD` | `0.75` | Simple raw-score deferral heuristic (not calibrated) |
-| `MAX_UPLOAD_MB` | `8` | Maximum uploaded image size |
+| `MAX_UPLOAD_MB` | `4` | Maximum uploaded image file size. The 4 MiB cap leaves room for multipart overhead under Vercel's 4.5 MB request limit. |
 | `HOST` | `127.0.0.1` | Local Flask bind address |
 | `PORT` | `5000` | Local port (container default `8080`) |
 | `CROP_DOCTOR_MODE` | `development` | Enables reason-code logs for deferred results in development |
@@ -137,7 +137,7 @@ The CSV needs `image_path,class_id` columns; paths may be relative to the CSV. T
 
 ## Deployment and operational limits
 
-`Dockerfile` installs CPU PyTorch, runs one Gunicorn worker, and exposes a health check. The model is downloaded on first inference; CPU cold starts and model storage can be slow and memory-intensive. Choose a host with sufficient RAM/disk and persistent storage mounted at `CROP_DOCTOR_MODEL_DIR` if the provider supports it. Free-tier sleep, bandwidth, disk and memory limits vary by provider. Configure HTTPS at the host's ingress. No credentials, hosted service, account, or public URL are included.
+`Dockerfile` installs CPU PyTorch, runs one Gunicorn worker, and exposes a health check. The model is downloaded on first inference; CPU cold starts and model storage can be slow and memory-intensive. Choose a host with sufficient RAM/disk and persistent storage mounted at `CROP_DOCTOR_MODEL_DIR` if the provider supports it. Free-tier sleep, bandwidth, disk and memory limits vary by provider. Configure HTTPS at the host's ingress. For an optional Vercel entrypoint, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md): Vercel runs a small Node.js proxy and forwards to Render; it does not bundle the Python model. Set `RENDER_BACKEND_URL` in the Vercel project to the Render HTTPS origin.
 
 Before public internet exposure, configure the hosting platform's request limits/rate limiting and review its data-retention/network policies. This prototype does not include accounts, a database, application-level per-user rate limiting, local field validation, offline model inference, or expert booking.
 
