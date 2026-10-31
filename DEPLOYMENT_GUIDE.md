@@ -46,6 +46,21 @@ You can import the repository, but that does **not** make Vercel a suitable free
 
 Vercel can be reconsidered if the upload flow is redesigned around its request-size limits and the PyTorch package/model-loading approach is validated against the current function size, duration, and cold-start limits. Using Vercel only for a separate static frontend would also require splitting the current Flask-rendered pages from the backend and configuring cross-origin/API behavior; that architecture is not included here.
 
+## Do Render and Vercel need to share environment variables?
+
+**No—not for the application as it exists in this repository.** Render and Vercel keep separate environment-variable settings; they do not automatically copy variables or URLs between each other. This project is currently one Flask application: Flask serves the pages and static files and handles `/api/diagnose` on the same origin. Deploying it to Render is sufficient; there is no separate Vercel frontend to connect.
+
+The Render Blueprint already sets the app-specific values it needs (`CROP_DOCTOR_MODE` and `CROP_DOCTOR_MODEL_DIR`), and Render supplies `PORT`. There is no Render URL, Vercel URL, API key, or other secret that needs to be copied into Vercel for this single-service setup.
+
+If the architecture is deliberately changed later so Vercel serves a separate frontend and Render serves only the Flask API, then configure the connection explicitly in code and in each provider:
+
+1. Add a frontend API-base-URL setting in Vercel, such as `https://<your-render-service>.onrender.com`. The frontend must read that setting when making API requests; merely adding an environment variable does not change this app's current same-origin requests.
+2. Configure the Render backend to allow requests from the exact Vercel site origin, and implement/test the required CORS policy. This app does not currently have that cross-origin setup.
+3. Keep each service's own runtime settings in that provider's dashboard. Only share a value when the changed code explicitly consumes it; never copy private credentials into browser-visible frontend variables.
+4. Account for Vercel's 4.5 MB request-body limit: routing diagnosis uploads through a Vercel Function can reject images before they reach Render, even though Render accepts this app's larger configured upload limit.
+
+That two-provider design is a separate architecture change, not a deployment toggle. Do not deploy both copies and expect them to synchronize or forward traffic automatically.
+
 ## Phone, data and reliability notes
 
 - Use the HTTPS URL actually issued by the host. A phone's `localhost` is the phone itself, not the hosted app or your laptop.
