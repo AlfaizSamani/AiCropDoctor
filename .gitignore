@@ -1,0 +1,27 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.env
+.env.*
+!.env.example
+*.log
+.model-cache/
+models/*.pth
+models/*.part
+uploads/
+private_images/
+/*.jpg
+/*.jpeg
+/*.png
+/AI_Crop_Doctor_Project_Dossier.docx
+/AI_Crop_Doctor_Copilot_Master_Prompt.md
+/AI_Crop_Doctor_Copilot_UI_Redesign_Prompt.md
+/AI_Crop_Doctor_Code_Audit.md
+/COPILOT_FIRST_PROMPT.txt
+/README (1).md

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-translations-url="{{ url_for('static', filename='ui-translations.json') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#163B2D">
+  <meta name="description" content="An educational, uncertainty-aware crop-health screening prototype.">
+  <title>{% block title %}AI Crop Doctor{% endblock %}</title>
+  <link rel="manifest" href="{{ url_for('manifest') }}">
+  <link rel="icon" href="{{ url_for('static', filename='icons/brand-mark.png') }}" type="image/png">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='enhancements.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='redesign.css') }}">
+</head>
+<body>
+  <div class="app-layout">
+    <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Close navigation" data-site-aria="menu_close" hidden></button>
+    <aside class="sidebar" id="app-sidebar" aria-label="Main navigation" data-site-aria="main_navigation">
+      <a class="sidebar-brand" href="{{ url_for('dashboard') }}">
+        <img class="brand-mark" src="{{ url_for('static', filename='icons/brand-mark.png') }}" alt="" width="46" height="46">
+        <span class="sidebar-brand-copy"><strong>AI Crop Doctor</strong><small data-site-i18n="brand_sub">Crop-health screening assistant</small></span>
+      </a>
+      <nav class="sidebar-nav">
+        {% set nav_items = [
+          ('dashboard', 'dashboard', 'nav_dashboard', 'M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z M9 21v-7h6v7'),
+          ('diagnose', 'diagnose', 'nav_diagnose', 'M8 3h8l5 5v13H3V3z M8 3v5h8 M12 12v6 M9 15h6'),
+          ('history', 'history', 'nav_history', 'M3 12a9 9 0 1 0 2.64-6.36L3 8 M3 3v5h5 M12 7v5l3 2'),
+          ('learn', 'learn', 'nav_learn', 'M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z M12 7v10'),
+          ('getting_started', 'getting_started', 'nav_getting_started', 'M12 3 3 7.5 12 12l9-4.5z M3 12l9 4.5 9-4.5 M3 16.5 12 21l9-4.5'),
+          ('settings', 'settings', 'nav_settings', 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.94-.09-.02a1.7 1.7 0 0 0-1.7.7l-.05.08h-3.4l-.04-.08a1.7 1.7 0 0 0-1.7-.7l-.1.02-1.7-2.94.07-.06A1.7 1.7 0 0 0 9.7 15l-.09-.05v-3.4l.09-.05a1.7 1.7 0 0 0-.34-1.88l-.07-.06 1.7-2.94.1.02a1.7 1.7 0 0 0 1.7-.7l.04-.08h3.4l.05.08a1.7 1.7 0 0 0 1.7.7l.09-.02 1.7 2.94-.06.06a1.7 1.7 0 0 0-.34 1.88l.09.05v3.4z'),
+          ('about', 'about', 'nav_about', 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 11v6 M12 7h.01')
+        ] %}
+        {% for endpoint, page_key, label_key, path_data in nav_items %}
+        <a class="sidebar-link{% if current_page == page_key %} active{% endif %}" href="{{ url_for(endpoint) }}" data-site-aria="{{ label_key }}"{% if current_page == page_key %} aria-current="page"{% endif %}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{ path_data }}"/></svg>
+          <span data-site-i18n="{{ label_key }}">{{ label_key }}</span>
+        </a>
+        {% endfor %}
+      </nav>
+      <div class="sidebar-foot">
+        <p data-site-i18n="sidebar_safety">AI-assisted preliminary crop-health screening. Not a confirmed diagnosis; verify with a qualified local agricultural advisor before treatment.</p>
+        <a href="{{ url_for('about') }}" data-site-i18n="nav_about">About / Help</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar app-topbar">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="app-sidebar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="topbar-context">
+          <span class="topbar-product">AI Crop Doctor</span>
+          <span class="service-status ui-status" id="ui-status" role="status" data-site-i18n="ui_ready">Interface ready</span>
+          <span class="service-status" id="backend-status" role="status" data-site-i18n="backend_checking">Checking server…</span>
+          <span class="service-status model-status" id="model-status" role="status" data-site-i18n="model_checking">Checking model…</span>
+        </div>
+        <button class="install-button secondary-button" id="install-app" type="button" hidden data-site-i18n="install_app">Install app</button>
+        <label class="language-wrap"><span data-site-i18n="language">Language</span>
+          <select id="language" aria-label="Language" data-site-aria="language">
+            <option value="en">English</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option><option value="ur">اردو</option>
+          </select>
+        </label>
+        <button class="header-tutorial" type="button" data-open-tutorial data-site-i18n="replay_tutorial">Replay tutorial</button>
+      </header>
+      <main class="page-content" id="main-content">
+        {% block content %}{% endblock %}
+      </main>
+      <footer class="app-footer">
+        <span data-site-i18n="footer_label">AI CROP DOCTOR · EDUCATIONAL PROTOTYPE</span>
+        <span data-site-i18n="footer_disclaimer">AI-assisted preliminary crop-health screening. Not a confirmed diagnosis; verify with a qualified local agricultural advisor before treatment.</span>
+      </footer>
+    </div>
+  </div>
+
+  <dialog id="first-run-tutorial" class="tutorial-dialog" aria-labelledby="tutorial-title" aria-modal="true">
+    <div class="tutorial-top"><span class="tutorial-kicker" data-site-i18n="tutorial_kicker">A QUICK FIRST LOOK</span><button type="button" class="dialog-close" data-close-tutorial aria-label="Close tutorial" data-site-aria="close">×</button></div>
+    <div class="tutorial-progress-row"><div class="tutorial-progress" id="tutorial-progress" role="status" aria-live="polite"></div><div class="tutorial-dots" id="tutorial-dots" role="group" data-site-aria="tutorial_kicker" aria-label="A quick first look"></div></div>
+    <div class="tutorial-slide">
+      <div class="tutorial-artwork"><img class="tutorial-visual" id="tutorial-visual" src="{{ url_for('static', filename='images/field-intercropping.jpg') }}" alt="" aria-hidden="true" width="720" height="280"><a class="photo-credit tutorial-photo-credit" id="tutorial-photo-credit" href="https://commons.wikimedia.org/wiki/File:Field_with_mixed_intercropping_of_oat_and_rye.jpg" target="_blank" rel="noopener noreferrer">Photo: W. Carter · CC0</a></div>
+      <div class="tutorial-slide-copy"><h2 id="tutorial-title" tabindex="-1"></h2><p class="tutorial-copy" id="tutorial-copy"></p><a class="tutorial-action" id="tutorial-action" href="{{ url_for('diagnose') }}"><span id="tutorial-action-label"></span><span aria-hidden="true">→</span></a></div>
+    </div>
+    <div class="tutorial-notice" data-site-i18n="tutorial_notice">This educational tool offers a possible image-classifier match, not a confirmed diagnosis. The model score is not a calibrated probability.</div>
+    <div class="tutorial-actions"><button type="button" class="text-button" data-close-tutorial data-site-i18n="skip">Skip</button><button type="button" class="secondary-button" id="tutorial-back" data-site-i18n="back">Back</button><button type="button" class="primary-button" id="tutorial-next" data-site-i18n="next">Next</button></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='site.js') }}" defer></script>
+  {% if current_page == 'diagnose' %}
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='enhancements.js') }}" defer></script>
+  {% endif %}
+</body>
+</html>

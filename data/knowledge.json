@@ -1,0 +1,4 @@
+{
+  "source_policy": "Only include condition-specific statements after a qualified reviewer verifies the source and wording. Until then, show the model class name and generic safety guidance only.",
+  "classes": []
+}

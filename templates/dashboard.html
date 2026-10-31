@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ 'AI Crop Doctor — Dashboard' }}{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div><span class="eyebrow" data-site-i18n="dashboard_eyebrow">A FIELD-FIRST FIRST LOOK</span><h1 data-site-i18n="dashboard_title">Understand Your Plant's Health.</h1><p data-site-i18n="dashboard_subtitle">Use a leaf photo to explore a possible match, then verify it with a person who knows your crop.</p></div>
+  <a class="primary-button page-cta" href="{{ url_for('diagnose') }}" data-site-i18n="diagnose_cta">Diagnose a leaf</a>
+</section>
+<section class="dashboard-hero">
+  <div class="dashboard-hero-copy"><span class="section-label" data-site-i18n="dashboard_label">A PRACTICAL SCREENING TOOL</span><h2 data-site-i18n="dashboard_hero_title">One photo can start a better conversation.</h2><p data-site-i18n="dashboard_hero_body">The image model compares a leaf with classes it has seen. It can be wrong, especially with real farm photos or unfamiliar conditions.</p><a class="text-link" href="{{ url_for('learn') }}" data-site-i18n="learn_limits_link">Learn what the result means</a></div>
+  <figure class="dashboard-photo"><img src="{{ url_for('static', filename='images/field-intercropping.jpg') }}" alt="" data-site-alt="field_photo_alt" width="1280" height="853" fetchpriority="high"><figcaption class="photo-credit"><a href="https://commons.wikimedia.org/wiki/File:Field_with_mixed_intercropping_of_oat_and_rye.jpg" target="_blank" rel="noopener noreferrer">Photo: W. Carter · CC0</a></figcaption></figure>
+</section>
+<section class="workflow-section" aria-labelledby="workflow-title">
+  <div class="section-heading"><div><span class="section-label" data-site-i18n="workflow_label">THREE SIMPLE STEPS</span><h2 id="workflow-title" data-site-i18n="workflow_title">Capture. Review. Verify.</h2></div><a class="text-link" href="{{ url_for('getting_started') }}" data-site-i18n="getting_started_link">View Getting Started</a></div>
+  <div class="step-grid"><article><span>01</span><h3 data-site-i18n="workflow_capture">Take a clear photo</h3><p data-site-i18n="workflow_capture_body">Use daylight and focus on one leaf.</p></article><article><span>02</span><h3 data-site-i18n="workflow_review">Review the screen</h3><p data-site-i18n="workflow_review_body">Check the model class, raw score and uncertainty.</p></article><article><span>03</span><h3 data-site-i18n="workflow_verify">Verify with an expert</h3><p data-site-i18n="workflow_verify_body">Ask a qualified local agricultural advisor before treatment.</p></article></div>
+</section>
+<section class="notice-card"><strong data-site-i18n="safety_title">Screening, not diagnosis</strong><p data-site-i18n="safety_body">Do not select or apply pesticides based only on a model result. Similar leaf symptoms may have different causes.</p></section>
+<section class="recent-summary" id="dashboard-history"><div class="section-heading"><div><span class="section-label" data-site-i18n="history_local_label">ON THIS DEVICE</span><h2 data-site-i18n="recent_history_title">Recent saved results</h2></div><a class="text-link" href="{{ url_for('history') }}" data-site-i18n="view_history">View history</a></div><div id="dashboard-history-list" aria-live="polite"></div></section>
+{% endblock %}

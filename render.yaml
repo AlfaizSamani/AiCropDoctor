@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-crop-doctor
+    runtime: python
+    plan: free
+    buildCommand: >-
+      python -m pip install --upgrade pip &&
+      python -m pip install torch==2.6.0 torchvision==0.21.0
+      --index-url https://download.pytorch.org/whl/cpu &&
+      python -m pip install -r requirements.txt
+    startCommand: >-
+      gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 180
+      --access-logfile - --error-logfile - app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: CROP_DOCTOR_MODE
+        value: production
+      - key: CROP_DOCTOR_MODEL_DIR
+        value: /tmp/ai-crop-doctor-model

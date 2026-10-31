@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}AI Crop Doctor — My History{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow" data-site-i18n="history_eyebrow">PRIVATE TO THIS BROWSER</span><h1 data-site-i18n="history_page_title">My history</h1><p data-site-i18n="history_page_subtitle">Saved results stay on this device in this browser. Photos are not stored.</p></div><a class="secondary-button" href="{{ url_for('diagnose') }}" data-site-i18n="diagnose_cta">Diagnose a leaf</a></header>
+<section class="content-panel history-page-panel">
+  <label class="history-toggle"><input type="checkbox" id="history-opt-in"><span data-site-i18n="history_optin">Save results on this device</span></label>
+  <p class="micro-note" data-site-i18n="history_optin_explainer">History is off until you enable it. Turning it off hides saved records; clear them below to remove them from this browser.</p>
+  <div id="history-controls" hidden><div class="history-actions"><button type="button" id="export-history" class="secondary-button" data-site-i18n="export_history">Export JSON</button><button type="button" id="clear-history" class="secondary-button danger-button" data-site-i18n="clear_history">Clear all</button></div><p class="micro-note" data-site-i18n="history_saved">Saved on this device only. No photos are saved.</p><div id="history-list" class="history-list" aria-live="polite"></div><div id="history-no-results" class="history-empty-state" hidden><img src="{{ url_for('static', filename='images/field-intercropping.jpg') }}" alt="" width="1280" height="853" loading="lazy"><h2 data-site-i18n="history_empty">No saved results yet.</h2><p data-site-i18n="history_empty_body">Run a screening to add a summary. Photos are not saved.</p><a class="text-link" href="{{ url_for('diagnose') }}" data-site-i18n="diagnose_cta">Diagnose a leaf</a></div></div>
+  <div id="history-disabled" class="history-empty-state"><img src="{{ url_for('static', filename='images/field-intercropping.jpg') }}" alt="" width="1280" height="853" loading="lazy"><h2 data-site-i18n="history_disabled_title">History is off</h2><p data-site-i18n="history_disabled_body">Enable the option above if you want to keep result summaries on this browser.</p></div>
+</section>
+{% endblock %}

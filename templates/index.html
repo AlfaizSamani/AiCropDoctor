@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}AI Crop Doctor — Diagnose a Leaf{% endblock %}
+{% block content %}
+<div class="connection-banner" id="connection-banner" role="status" aria-live="polite" hidden><span data-extra="offline_message">You are offline. Image analysis requires the server.</span><button type="button" id="retry-connection" class="text-button" data-extra="retry">Retry</button></div>
+<header class="page-header diagnosis-page-header"><div><span class="eyebrow" data-site-i18n="diagnose_eyebrow">PHOTO SCREENING</span><h1 data-site-i18n="diagnose_page_title">Diagnose a leaf</h1><p data-site-i18n="diagnose_page_subtitle">Upload a leaf image for a possible model match. Typed or spoken notes are not model input.</p></div></header>
+<div class="main-grid diagnosis-grid">
+  <section class="panel input-panel" aria-labelledby="upload-heading">
+    <div class="panel-heading"><div><div class="section-label" data-i18n="step_1">STEP 01</div><h2 id="upload-heading" data-i18n="upload_heading">Add a leaf photo</h2><p data-i18n="upload_sub">For best results, photograph one leaf in daylight.</p></div><div class="step-icon" aria-hidden="true">↗</div></div>
+    <button type="button" class="guide-start" id="start-guide" data-extra="talk_me">Talk me through it</button>
+    <form id="diagnosis-form">
+      <label class="upload-zone" id="upload-zone" for="image-input">
+        <input type="file" id="image-input" name="image" accept="image/jpeg,image/png,image/webp" capture="environment" required aria-label="Take or choose a leaf photo" data-extra-aria="photo_input">
+        <div id="upload-empty" class="upload-empty"><span class="upload-icon" aria-hidden="true">↑</span><strong data-i18n="drop_title">Choose a photo or use camera</strong><span data-i18n="drop_sub">JPG, PNG or WEBP · Up to 8 MB</span><span class="upload-cta" data-i18n="browse">Browse files</span></div>
+        <img id="image-preview" alt="Selected leaf preview" data-extra-alt="preview_alt" hidden><span id="preview-overlay" class="preview-overlay" hidden data-i18n="change_photo">Change photo</span>
+      </label>
+      <div class="photo-actions"><button type="button" id="gallery-button" class="secondary-button" data-extra="choose_gallery">Choose from gallery</button><input type="file" id="gallery-input" accept="image/jpeg,image/png,image/webp" hidden aria-label="Choose a photo from gallery" data-extra-aria="choose_gallery"></div>
+      <p class="photo-tip" data-extra="photo_tip">Photo tip: one leaf, in focus, in daylight; avoid heavy shadows. JPG, PNG or WEBP, up to 8 MB.</p>
+      <figure class="photo-guide-inline"><img src="{{ url_for('static', filename='images/tamarillo-leaf.jpg') }}" alt="" data-site-alt="leaf_photo_alt" width="1280" height="853" loading="lazy"><figcaption><span data-site-i18n="photo_guide_caption">Photo guide: daylight · steady focus · one clear leaf</span><a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Green_Leaf_of_a_Bio_Plant_in_Nature.jpg" target="_blank" rel="noopener noreferrer">Photo: epSos.de · CC BY 2.0</a></figcaption></figure>
+      <div class="field-row"><label class="field-label" for="crop" data-i18n="crop_label">Which crop is this?</label><select id="crop" name="crop" class="field-control"><option value="auto" data-i18n="crop_auto">Not sure / let AI check</option><option value="Apple">Apple</option><option value="Blueberry">Blueberry</option><option value="Cherry">Cherry</option><option value="Corn">Corn</option><option value="Grape">Grape</option><option value="Orange">Orange</option><option value="Peach">Peach</option><option value="Pepper">Bell pepper</option><option value="Potato">Potato</option><option value="Raspberry">Raspberry</option><option value="Soybean">Soybean</option><option value="Squash">Squash</option><option value="Strawberry">Strawberry</option><option value="Tomato">Tomato</option></select></div>
+      <div class="voice-head"><label class="field-label" for="symptoms" data-i18n="symptom_label">Describe what you notice (optional)</label><button type="button" id="mic-button" class="mic-button" aria-pressed="false"><span aria-hidden="true">🎙</span> <span data-i18n="speak">Speak</span></button></div>
+      <textarea id="symptoms" name="symptom_note" rows="3" class="field-control note-box" data-i18n-placeholder="symptom_placeholder" placeholder="Example: The lower leaves have yellow spots…"></textarea>
+      <p class="micro-note" data-i18n="voice_note">Voice is transcribed into a note. The classifier analyses the image only—not the spoken symptoms.</p>
+      <p class="micro-note" data-extra="speech_privacy">Voice recognition depends on your browser and may send audio to an external service. It may not work offline.</p>
+      <span id="mic-status" class="mic-status" role="status" aria-live="polite"></span>
+      <button class="primary-button" id="analyse-button" type="submit"><span class="button-icon" aria-hidden="true">✦</span><span data-i18n="analyse">Analyse leaf</span><span class="button-arrow" aria-hidden="true">→</span></button>
+      <div class="privacy-note"><span aria-hidden="true">🔒</span><span data-extra="upload_privacy">The selected photo is sent to the Flask server for analysis. It is not kept as a case record, but larger uploads may be temporarily spooled to host storage while the request is parsed.</span></div>
+    </form>
+  </section>
+  <section class="panel result-panel" aria-labelledby="result-heading" aria-live="polite">
+    <div class="panel-heading"><div><div class="section-label" data-i18n="step_2">STEP 02</div><h2 id="result-heading" data-i18n="result_heading">Screening result</h2><p data-i18n="result_sub">Your result will appear here.</p></div><div class="result-icon" aria-hidden="true">⌁</div></div>
+    <div id="empty-result" class="empty-result"><div class="result-illustration"><img src="{{ url_for('static', filename='images/tamarillo-leaf.jpg') }}" alt="" width="1280" height="853"><span class="example-label" data-site-i18n="illustration_only">Example photo; not a model result</span><a class="photo-credit" href="https://commons.wikimedia.org/wiki/File:Green_Leaf_of_a_Bio_Plant_in_Nature.jpg" target="_blank" rel="noopener noreferrer">Photo: epSos.de · CC BY 2.0</a></div><h3 data-i18n="waiting_title">Ready when you are</h3><p data-i18n="waiting_desc">Select a clear leaf photo to run the image model and receive an evidence-aware screening result.</p><div class="mini-steps"><span>✓ <b data-i18n="waiting_step1">Check the photo</b></span><span>✓ <b data-i18n="waiting_step2">Show confidence</b></span><span>✓ <b data-i18n="waiting_step3">Suggest next steps</b></span></div></div>
+    <div id="loading-result" class="loading-result" hidden><div class="loader" aria-hidden="true"></div><h3 data-i18n="analysing">Analysing image…</h3><p data-i18n="first_load">First use may take a little longer while the AI model downloads.</p></div>
+    <div id="error-result" class="error-box" role="alert" hidden></div><button id="retry-analysis" class="secondary-button retry-analysis" type="button" hidden data-extra="retry_analysis">Retry analysis</button>
+    <div id="actual-result" hidden>
+      <div id="status-banner" class="status-banner" role="status"></div>
+      <div class="diagnosis-title"><div><div class="result-kicker" data-i18n="model_match">MODEL MATCH</div><h3><bdi id="diagnosis-label" dir="auto">—</bdi></h3><p id="diagnosis-detail" dir="auto"></p></div><div class="score-ring" id="score-ring"><strong><bdi id="score-value">—%</bdi></strong><span data-i18n="raw_score">model score</span></div></div>
+      <p class="score-caveat" data-extra="score_caveat">Raw model score; not a calibrated probability of correctness.</p><div class="score-track" aria-hidden="true"><div id="score-bar"></div></div>
+      <div id="crop-warning" class="inline-warning" hidden></div>
+      <div class="guidance-card"><div class="guidance-icon" aria-hidden="true">↗</div><div><strong id="guidance-title">Next step</strong><ul id="guidance-steps"></ul></div></div>
+      <div class="alternatives-block"><div class="field-label" data-i18n="other_matches">Other model matches</div><div id="alternatives"></div></div>
+      <div id="warnings" class="warnings"></div><div id="note-reflection" class="note-reflection" hidden></div>
+      <p class="safety-reminder" data-extra="safety_reminder">AI-assisted preliminary crop-health screening. Not a confirmed crop diagnosis; verify with a qualified local agricultural advisor before treatment.</p>
+      <button id="read-result" class="secondary-button" type="button">🔊 <span data-i18n="read_result">Read result aloud</span></button>
+    </div>
+  </section>
+</div>
+<dialog id="guide-dialog" class="guide-dialog" aria-labelledby="guide-title">
+  <div class="guide-head"><span class="section-label" data-extra="guided_label">GUIDED INTAKE</span><button id="close-guide" class="dialog-close" type="button" aria-label="Close">×</button></div>
+  <h2 id="guide-title" data-extra="talk_me">Talk me through it</h2><p id="guide-disclosure" class="micro-note" data-extra="speech_privacy">Voice recognition depends on your browser and may send audio to an external service. It may not work offline.</p>
+  <div class="guide-progress" id="guide-progress" role="status" aria-live="polite"></div><h3 id="guide-prompt"></h3>
+  <div id="guide-crop-wrap" class="field-row" hidden><label class="field-label" for="guide-crop" data-extra="crop_label_short">Choose a crop</label><select id="guide-crop" class="field-control"></select></div>
+  <textarea id="guide-answer" class="field-control guide-answer" rows="4" hidden></textarea>
+  <div id="guide-photo-actions" class="photo-actions" hidden><button type="button" id="guide-camera" class="secondary-button" data-extra="take_photo">Take a photo</button><button type="button" id="guide-gallery" class="secondary-button" data-extra="choose_gallery">Choose from gallery</button></div>
+  <div id="guide-confirm" class="guide-confirm" hidden></div>
+  <div class="guide-controls"><button type="button" id="guide-mic" class="mic-button guide-mic">🎙 <span data-extra="speak_answer">Speak answer</span></button><button type="button" id="guide-replay" class="secondary-button" data-extra="replay_prompt">Replay prompt</button><button type="button" id="guide-skip" class="text-button" data-extra="skip">Skip</button></div>
+  <div class="guide-controls guide-navigation"><button type="button" id="guide-back" class="secondary-button" data-extra="back">Back</button><button type="button" id="guide-next" class="primary-button" data-extra="next">Next</button></div><p id="guide-feedback" class="guide-feedback" role="status" aria-live="polite"></p>
+</dialog>
+<section class="notice-card diagnosis-safety"><strong data-site-i18n="safety_title">Screening, not diagnosis</strong><p data-site-i18n="safety_body">Do not select or apply pesticides based only on a model result. Similar leaf symptoms may have different causes.</p></section>
+{% endblock %}
